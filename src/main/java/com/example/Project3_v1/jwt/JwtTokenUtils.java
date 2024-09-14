@@ -18,10 +18,13 @@ import java.util.Date;
 public class JwtTokenUtils {
     private final Key secretKey;
     private final JwtParser jwtParser;
+    private final Long jwtExpiration;
 
     public JwtTokenUtils(
             @Value("${jwt.secret}")
-            String jwtSecret
+            String jwtSecret,
+            @Value("${jwt.expiration-time}")
+            Long jwtExpiration
     ) {
         this.secretKey =
                 Keys.hmacShaKeyFor(jwtSecret.getBytes());
@@ -29,6 +32,7 @@ public class JwtTokenUtils {
                 .parserBuilder()
                 .setSigningKey(this.secretKey)
                 .build();
+        this.jwtExpiration = jwtExpiration;
     }
 
     public String generateToken(UserDetails userDetails) {
@@ -41,7 +45,7 @@ public class JwtTokenUtils {
         Claims jwtClaims = Jwts.claims()
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(Date.from(now))
-                .setExpiration(Date.from(now.plusSeconds(120)));
+                .setExpiration(Date.from(now.plusSeconds(jwtExpiration)));
 
         return Jwts.builder()
                 .setClaims(jwtClaims)

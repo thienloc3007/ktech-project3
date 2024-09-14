@@ -1,4 +1,4 @@
-package com.example.Project3_v1.Response;
+package com.example.Project3_v1.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

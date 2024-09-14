@@ -1,6 +1,6 @@
 package com.example.Project3_v1.service;
 
-import com.example.Project3_v1.RequestDto.UserUpgradeRequest;
+import com.example.Project3_v1.dto.user.UserUpgradeRequest;
 import com.example.Project3_v1.entity.Admin;
 import com.example.Project3_v1.entity.User;
 import com.example.Project3_v1.repository.AdminRepository;
@@ -9,7 +9,6 @@ import com.example.Project3_v1.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

@@ -1,12 +1,14 @@
 package com.example.Project3_v1.controller;
 
-import com.example.Project3_v1.RequestDto.UserCreationRequest;
-import com.example.Project3_v1.RequestDto.UserUpdateRequest;
-import com.example.Project3_v1.RequestDto.UserUpgradeRequest;
+import com.example.Project3_v1.dto.user.UserCreationRequest;
+import com.example.Project3_v1.dto.user.UserUpdateRequest;
+import com.example.Project3_v1.dto.user.UserUpgradeRequest;
+import com.example.Project3_v1.entity.CustomUserDetails;
 import com.example.Project3_v1.entity.User;
 import com.example.Project3_v1.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,14 +18,6 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
-
-    @PostMapping("/signup")
-    User createUser(
-            @RequestBody
-            @Valid
-            UserCreationRequest request) {
-        return userService.createUser(request);
-    }
 
     @GetMapping
     List<User> getUsers() {
@@ -55,5 +49,11 @@ public class UserController {
     void deleteUser (
             @PathVariable Integer id) {
         userService.deleteUser(id);
+    }
+
+    @GetMapping("/profile")
+    CustomUserDetails getUserProfile() {
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return userDetails;
     }
 }

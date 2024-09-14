@@ -33,12 +33,27 @@ public class WebSecurityConfiguration {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/error", "/token/issue", "/views/**", "/static/**", "auth/login",
-                                    "/users/**", "/stores/**", "/admin/**", "/classification/**")
-                            .permitAll();
-//                    auth.requestMatchers("/users/**", "/store/**")
-//                            .authenticated();
-//                    auth.anyRequest()
+                    auth.requestMatchers(   "/error",
+                                            "/tokenAuth/login",
+                                            "/auth/login",
+                                            "/views/**",
+                                            "/static/**",
+//                                            "/stores/**",
+                                            "/admin/**",
+                                            "/classification/**"
+                                        ).permitAll();
+                    auth.requestMatchers(   "/tokenAuth/signup",
+                                            "/auth/signup"
+                                        ).anonymous();
+                    auth.requestMatchers( "/users/**"
+//                                          "/store/**"
+                                        ).authenticated();
+                    // ROLE에 따른 접근 권한
+                    auth.requestMatchers("/stores/**")
+                            .hasAnyAuthority("ROLE_GENERAL_USER");
+//                    auth.requestMatchers("/admin-role")
+//                            .hasRole("ADMIN");
+//                  auth.anyRequest()
 //                            .authenticated();
                 })
                 .addFilterBefore(
@@ -48,8 +63,7 @@ public class WebSecurityConfiguration {
                         ),
                         AuthorizationFilter.class
                 )
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
     }
 

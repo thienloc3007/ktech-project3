@@ -1,4 +1,4 @@
-package com.example.Project3_v1.RequestDto;
+package com.example.Project3_v1.dto.user;
 
 import jakarta.validation.constraints.Size;
 import lombok.Getter;

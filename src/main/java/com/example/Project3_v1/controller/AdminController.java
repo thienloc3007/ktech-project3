@@ -1,6 +1,5 @@
 package com.example.Project3_v1.controller;
 
-import com.example.Project3_v1.RequestDto.UserUpgradeRequest;
 import com.example.Project3_v1.entity.Admin;
 import com.example.Project3_v1.entity.User;
 import com.example.Project3_v1.service.AdminService;
@@ -8,7 +7,6 @@ import com.example.Project3_v1.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController

@@ -1,6 +1,5 @@
-package com.example.Project3_v1.RequestDto;
+package com.example.Project3_v1.dto.store;
 
-import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

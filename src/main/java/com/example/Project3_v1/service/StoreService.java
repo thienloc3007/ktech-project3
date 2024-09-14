@@ -1,8 +1,8 @@
 package com.example.Project3_v1.service;
 
-import com.example.Project3_v1.RequestDto.StoreCreateRequest;
-import com.example.Project3_v1.RequestDto.StoreDeleteRequest;
-import com.example.Project3_v1.RequestDto.StoreUpdateRequest;
+import com.example.Project3_v1.dto.store.StoreCreateRequest;
+import com.example.Project3_v1.dto.store.StoreDeleteRequest;
+import com.example.Project3_v1.dto.store.StoreUpdateRequest;
 import com.example.Project3_v1.entity.Classification;
 import com.example.Project3_v1.entity.Store;
 import com.example.Project3_v1.repository.ClassificationRepository;

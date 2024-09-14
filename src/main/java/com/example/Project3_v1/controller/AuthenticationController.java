@@ -1,8 +1,12 @@
 package com.example.Project3_v1.controller;
 
-import com.example.Project3_v1.RequestDto.AuthenticationRequest;
-import com.example.Project3_v1.Response.AuthenticationResponse;
+import com.example.Project3_v1.dto.AuthenticationRequest;
+import com.example.Project3_v1.dto.AuthenticationResponse;
+import com.example.Project3_v1.dto.user.UserCreationRequest;
+import com.example.Project3_v1.entity.User;
 import com.example.Project3_v1.service.AuthenticationService;
+import com.example.Project3_v1.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,8 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthenticationController {
-    @Autowired
     private AuthenticationService authenticationService;
+    private UserService userService;
+
 
     @PostMapping("/login")
     AuthenticationResponse authenticate(
@@ -27,7 +32,11 @@ public class AuthenticationController {
                 .build();
     }
 
-
+    @PostMapping("/signup")
+    User createUser(
+            @RequestBody
+            @Valid
+            UserCreationRequest request) {
+        return userService.createUser(request);
+    }
 }
-
-

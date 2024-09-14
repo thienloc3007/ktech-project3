@@ -1,4 +1,4 @@
-package com.example.Project3_v1.RequestDto;
+package com.example.Project3_v1.dto;
 
 import lombok.*;
 
@@ -9,5 +9,5 @@ import lombok.*;
 @Builder
 public class AuthenticationRequest {
     private String username;
-    public String password;
+    private String password;
 }

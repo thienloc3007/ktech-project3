@@ -1,26 +1,28 @@
 package com.example.Project3_v1.service;
 
-import com.example.Project3_v1.RequestDto.UserCreationRequest;
-import com.example.Project3_v1.RequestDto.UserUpdateRequest;
-import com.example.Project3_v1.RequestDto.UserUpgradeRequest;
-import com.example.Project3_v1.entity.Store;
+import com.example.Project3_v1.dto.user.UserCreationRequest;
+import com.example.Project3_v1.dto.user.UserUpdateRequest;
+import com.example.Project3_v1.dto.user.UserUpgradeRequest;
+import com.example.Project3_v1.entity.CustomUserDetails;
 import com.example.Project3_v1.entity.User;
 import com.example.Project3_v1.repository.StoreRepository;
 import com.example.Project3_v1.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @Validated
-public class UserService {
+public class UserService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
     @Autowired private StoreRepository storeRepository;
@@ -121,7 +123,16 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-
-
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<User> optionalUser = userRepository.findByUsername(username);
+        if (optionalUser.isEmpty())
+            throw new UsernameNotFoundException(username);
+//        return User
+//                .withUsername(username)
+//                .password(optionalUser.get().getPassword())
+//                .build();
+        return CustomUserDetails.fromEntity(optionalUser.get());
+    }
 }
 
