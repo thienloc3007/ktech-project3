@@ -11,6 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Objects;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -24,13 +26,16 @@ public boolean authenticate(AuthenticationRequest request) {
     PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
     System.out.println(request.getPassword());
     System.out.println(user.getPassword());
+
     String hashedPassword = passwordEncoder.encode(request.getPassword());
     System.out.println(hashedPassword);
     String password = user.getPassword();
     String userPasswordEncoded = passwordEncoder.encode(password);
     System.out.println(userPasswordEncoded);
 
-    return (request.getPassword() == user.getPassword());
+    return passwordEncoder.matches(request.getPassword(), userPasswordEncoded);
+
+//    return (Objects.equals(request.getPassword(), user.getPassword()));
 }
 
 

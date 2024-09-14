@@ -15,5 +15,6 @@ public class UserUpdateRequest {
     private String email;
     private String phoneNumber;
     private String profilePicture;
-    private String userType;
+
+
 }

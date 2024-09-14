@@ -23,8 +23,10 @@ public class User {
     private String email;
     private String phoneNumber;
     private String profilePicture;
-    private String userType; //(Inactive, General, Business, Administrator)
+    private String authorities; //(Inactive, General, Business, Administrator)
+    private String upgradeReason;
 
-    @OneToMany(mappedBy = "owner")
-    private List<Store> store;
+
+    @OneToOne(mappedBy = "owner")
+    private Store store;
 }

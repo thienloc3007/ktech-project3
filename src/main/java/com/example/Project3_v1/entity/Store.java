@@ -17,10 +17,14 @@ public class Store {
     private Integer id;
     private String storeName;
     private String introduction;
-    private String classification;
-    private String storeStatus; //Preparing, Open, Closing, Closed
 
     @ManyToOne
+    private Classification classification;
+
+    private String storeStatus; //Preparing, Open, Closing, Closed
+    private String deleteReason;
+
+    @OneToOne
     @JoinColumn(name = "owner")
     private User owner;
 

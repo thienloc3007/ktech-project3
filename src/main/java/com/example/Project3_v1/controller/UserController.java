@@ -2,6 +2,7 @@ package com.example.Project3_v1.controller;
 
 import com.example.Project3_v1.RequestDto.UserCreationRequest;
 import com.example.Project3_v1.RequestDto.UserUpdateRequest;
+import com.example.Project3_v1.RequestDto.UserUpgradeRequest;
 import com.example.Project3_v1.entity.User;
 import com.example.Project3_v1.service.UserService;
 import jakarta.validation.Valid;
@@ -16,7 +17,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping
+    @PostMapping("/signup")
     User createUser(
             @RequestBody
             @Valid
@@ -35,12 +36,20 @@ public class UserController {
         return userService.getUserById(id);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}/update")
     User updateUser (
             @PathVariable Integer id,
             @RequestBody @Valid UserUpdateRequest updatedUser) {
         return userService.updateUser(id, updatedUser);
     }
+
+    @PutMapping("/{id}/upgrade")
+    User upgradeUser (
+            @PathVariable Integer id,
+            @RequestBody @Valid UserUpgradeRequest upgradeUser) {
+        return userService.upgradeUser(id, upgradeUser)  ;
+    }
+
 
     @DeleteMapping("/{id}")
     void deleteUser (

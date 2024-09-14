@@ -33,12 +33,13 @@ public class WebSecurityConfiguration {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/error", "/token/issue", "/views/**", "/static/**", "auth/login")
+                    auth.requestMatchers("/error", "/token/issue", "/views/**", "/static/**", "auth/login",
+                                    "/users/**", "/stores/**", "/admin/**", "/classification/**")
                             .permitAll();
-                    auth.requestMatchers("/users/**")
-                            .authenticated();
-                    auth.anyRequest()
-                            .authenticated();
+//                    auth.requestMatchers("/users/**", "/store/**")
+//                            .authenticated();
+//                    auth.anyRequest()
+//                            .authenticated();
                 })
                 .addFilterBefore(
                         new JwtTokenFilter(
