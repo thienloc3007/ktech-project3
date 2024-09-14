@@ -16,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Validated
@@ -31,7 +32,7 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         user.setUsername(request.getUsername());
         user.setPassword(request.getPassword());
-        user.setAuthorities("ROLE_INACTIIVEUSER,READ");
+        user.setAuthorities("ROLE_INACTIVE_USER,READ");
 
 
 //        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
@@ -83,6 +84,37 @@ public class UserService {
 //            user.setStore(personalStore);
 
         return userRepository.save(user);
+    }
+
+    public List<User> getUserApplyUpgradeRequests () {
+        return userRepository.findGeneralUsersWithUpgradeRequests();
+    }
+
+    public User acceptUserUpgradeRequest (Integer id) {
+        // 1) Lấy danh sách các user đang gửi request:
+        List<User> requestUsers = userRepository.findGeneralUsersWithUpgradeRequests();
+        // 2) Kiểm tra user có nằm trong danh sách requestUsers hay không:
+        for (User requestUser : requestUsers) {
+            // if (user in requestUsers)
+            if(Objects.equals(requestUser.getId(), id)) {
+                // 3a) Nếu có, thì cập nhật ROLE, lưu và trả về
+                requestUser.setAuthorities("ROLE_BUSINESS_USER,READ,WRITE,SELL");
+                return userRepository.save(requestUser);
+            }
+        }
+        // 3b) Nếu không, thì trả về null
+        return null;
+    }
+
+    public User declineUserUpgradeRequest (Integer id) {
+        List<User> requestUsers = userRepository.findGeneralUsersWithUpgradeRequests();
+        for (User requestUser : requestUsers) {
+            if(Objects.equals(requestUser.getId(), id)) {
+                requestUser.setUpgradeReason(null);
+                return userRepository.save(requestUser);
+            }
+        }
+        return null;
     }
 
     public void deleteUser (Integer id) {

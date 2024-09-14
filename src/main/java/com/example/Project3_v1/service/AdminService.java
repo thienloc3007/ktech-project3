@@ -52,9 +52,11 @@ public class AdminService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
+    //accept business user conversion applications
 
 
-//accept or reject business user conversion applications
+
+    // or reject business user conversion applications
 
     // check the list of shopping malls that have been applied for opening
 

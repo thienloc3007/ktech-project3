@@ -27,7 +27,8 @@ public class StoreService {
         store.setStoreName(request.getStoreName());
         store.setIntroduction(request.getIntroduction());
 
-        Classification classification = classificationRepository.findById(request.getClassificationId()).orElseThrow();
+        Classification classification = classificationRepository
+                .findById(request.getClassificationId()).orElseThrow();
 
         store.setClassification(classification);
 
