@@ -3,6 +3,7 @@ package com.example.Project3_v1.controller;
 import com.example.Project3_v1.dto.jwt.JwtRequestDto;
 import com.example.Project3_v1.dto.jwt.JwtResponseDto;
 import com.example.Project3_v1.dto.user.UserCreationRequest;
+import com.example.Project3_v1.entity.CustomUserDetails;
 import com.example.Project3_v1.entity.User;
 import com.example.Project3_v1.jwt.JwtTokenUtils;
 import com.example.Project3_v1.service.UserService;
@@ -38,7 +39,7 @@ public class JwtAuthenticationController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    // Send POST request to /token/issue
+    // Send POST request to /tokenAuth/login
     // including username,password
     // to get a JwtToken
     @PostMapping("/login")
@@ -74,7 +75,8 @@ public class JwtAuthenticationController {
     }
 
     @PostMapping("/signup")
-    User createUser(@RequestBody @Valid UserCreationRequest request) {
+    User createUser(@RequestBody @Valid UserCreationRequest request)
+    {
         return userService.createUser(request);
     }
 

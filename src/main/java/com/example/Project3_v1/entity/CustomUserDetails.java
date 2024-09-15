@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 @Builder
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class CustomUserDetails implements UserDetails {
@@ -27,6 +28,7 @@ public class CustomUserDetails implements UserDetails {
     private String phoneNumber;
     private String profilePicture;
     private String upgradeReason;
+    private Store store;
     // ROLE_USER,ROLE_ADMIN,READ,WRITE,CREATE,COMMENT
     // ROLE_USER = (Inactive, General, Business, Administrator)
     private String authorities;
@@ -40,6 +42,7 @@ public class CustomUserDetails implements UserDetails {
     public String getPassword() {
         return password;
     }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -62,6 +65,7 @@ public class CustomUserDetails implements UserDetails {
         details.email = user.getEmail();
         details.phoneNumber = user.getPhoneNumber();
         details.authorities = user.getAuthorities();
+        details.store = user.getStore();
         return details;
     }
 }

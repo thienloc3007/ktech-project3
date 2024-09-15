@@ -1,5 +1,7 @@
 package com.example.Project3_v1.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -33,5 +35,7 @@ public class User {
 
 
     @OneToOne(mappedBy = "owner")
+//    @JsonIgnore
+    @JsonManagedReference // Đặt ở phía cha (User)
     private Store store;
 }

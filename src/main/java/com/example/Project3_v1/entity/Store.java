@@ -1,5 +1,7 @@
 package com.example.Project3_v1.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,8 +28,10 @@ public class Store {
 
     @OneToOne
     @JoinColumn(name = "owner")
+    @JsonBackReference // Đặt ở phía con (Store)
     private User owner;
 
     @OneToMany(mappedBy = "store")
+    @JsonIgnore
     private List<Product> products;
 }

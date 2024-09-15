@@ -1,5 +1,6 @@
 package com.example.Project3_v1.jwt;
 
+import com.example.Project3_v1.entity.CustomUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;

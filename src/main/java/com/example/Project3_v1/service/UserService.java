@@ -101,6 +101,7 @@ public class UserService implements UserDetailsService {
             if(Objects.equals(requestUser.getId(), id)) {
                 // 3a) Nếu có, thì cập nhật ROLE, lưu và trả về
                 requestUser.setAuthorities("ROLE_BUSINESS_USER,READ,WRITE,SELL");
+
                 return userRepository.save(requestUser);
             }
         }

@@ -3,10 +3,12 @@ package com.example.Project3_v1.controller;
 import com.example.Project3_v1.dto.store.StoreCreateRequest;
 import com.example.Project3_v1.dto.store.StoreDeleteRequest;
 import com.example.Project3_v1.dto.store.StoreUpdateRequest;
+import com.example.Project3_v1.entity.CustomUserDetails;
 import com.example.Project3_v1.entity.Store;
 import com.example.Project3_v1.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,9 +22,16 @@ public class StoreController {
     //Create
     @PostMapping("/signup")
     Store createStore(
-            @RequestBody
-            StoreCreateRequest request) {
-        return storeService.createStore(request);
+            @RequestBody  StoreCreateRequest request) {
+
+        // Lấy thông tin user từ token, truyền vào userDetails
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().
+                getAuthentication().getPrincipal();
+        // Lấy thông tin store từ userDetails
+        Store store =  userDetails.getStore();
+        // Truyền store.getId() vào method createStore(storeId, request)
+
+        return storeService.createStore(store.getId(),request);
     }
 
     //Read all stores

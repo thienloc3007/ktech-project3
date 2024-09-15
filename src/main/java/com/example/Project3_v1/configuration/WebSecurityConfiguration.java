@@ -50,7 +50,7 @@ public class WebSecurityConfiguration {
                                         ).authenticated();
                     // ROLE에 따른 접근 권한
                     auth.requestMatchers("/stores/**")
-                            .hasAnyAuthority("ROLE_GENERAL_USER");
+                            .hasAnyAuthority("ROLE_GENERAL_USER","ROLE_BUSINESS_USER");
 //                    auth.requestMatchers("/admin-role")
 //                            .hasRole("ADMIN");
 //                  auth.anyRequest()

@@ -5,6 +5,7 @@ import com.example.Project3_v1.dto.store.StoreDeleteRequest;
 import com.example.Project3_v1.dto.store.StoreUpdateRequest;
 import com.example.Project3_v1.entity.Classification;
 import com.example.Project3_v1.entity.Store;
+import com.example.Project3_v1.entity.User;
 import com.example.Project3_v1.repository.ClassificationRepository;
 import com.example.Project3_v1.repository.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,29 +21,28 @@ public class StoreService {
     @Autowired private ClassificationRepository classificationRepository;
 
     //Create
-    public Store createStore(StoreCreateRequest request) {
-    Store store = new Store();
-        if (storeRepository.existsByStoreName(request.getStoreName())) {
-           throw new RuntimeException("This store name cannot be used");}
-        store.setStoreName(request.getStoreName());
-        store.setIntroduction(request.getIntroduction());
-
-        Classification classification = classificationRepository
-                .findById(request.getClassificationId()).orElseThrow();
-
-        store.setClassification(classification);
-
-        storeRepository.save(store);
-
-        if(store.getStoreName() != null && store.getIntroduction() != null
-                && store.getClassification()!= null)
-            store.setStoreStatus("REQUEST FOR OPENING");
-
+    public Store autocCreateStore(User owner) {
+        Store store = new Store();
+        store.setStoreStatus("PREPARING");
+        store.setOwner(owner);
         return  storeRepository.save(store);
-                }
+    }
 
     //confirm the reason for disapproval
 
+    //Update
+    public Store createStore(Integer storeId, StoreCreateRequest createStoreRequest) {
+        Store store = getStoreById(storeId);
+        if (storeRepository.existsByStoreName(createStoreRequest.getStoreName())) {
+            throw new RuntimeException("This store name cannot be used");}
+        store.setStoreName(createStoreRequest.getStoreName());
+        store.setIntroduction(createStoreRequest.getIntroduction());
+        Classification classification = classificationRepository.findById(createStoreRequest.getClassificationId()).orElseThrow();
+        store.setClassification(classification);
+        store.setStoreStatus("REQUEST TO OPEN");
+
+        return storeRepository.save(store);
+    }
 
 
 
@@ -60,6 +60,8 @@ public class StoreService {
     //Update
     public Store updateStore(Integer id, StoreUpdateRequest updateStoreRequest) {
         Store store = getStoreById(id);
+        if (storeRepository.existsByStoreName(updateStoreRequest.getStoreName())) {
+            throw new RuntimeException("This store name cannot be used");}
         store.setStoreName(updateStoreRequest.getStoreName());
         store.setIntroduction(updateStoreRequest.getIntroduction());
 
