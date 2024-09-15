@@ -60,8 +60,8 @@ public class StoreService {
     //Update
     public Store updateStore(Integer id, StoreUpdateRequest updateStoreRequest) {
         Store store = getStoreById(id);
-        if (storeRepository.existsByStoreName(updateStoreRequest.getStoreName())) {
-            throw new RuntimeException("This store name cannot be used");}
+//        if (storeRepository.existsByStoreName(updateStoreRequest.getStoreName())) {
+//            throw new RuntimeException("This store name cannot be used");}
         store.setStoreName(updateStoreRequest.getStoreName());
         store.setIntroduction(updateStoreRequest.getIntroduction());
 
@@ -77,11 +77,13 @@ public class StoreService {
         Store store = getStoreById(id);
 
         //checking if store is open before closing it
-        if (store.getStoreStatus().equals("OPEN"))
+        if (!store.getStoreStatus().equals("OPEN"))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 
         //setting delete reason for closed store
         store.setDeleteReason(deleteStoreRequest.getReason());
+        store.setStoreStatus("REQUEST TO CLOSE");
+
 
         //add deleteReason to store
         storeRepository.save(store);

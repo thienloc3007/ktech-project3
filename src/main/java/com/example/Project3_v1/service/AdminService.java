@@ -92,7 +92,26 @@ public class AdminService {
     //accept the request for closure of the shopping mall after confirming it.
 
     //
+    public List<Store> getStoreDeleteRequest () {
+        return storeRepository.findStoresDeleteRequest();
+    }
 
+    public Store acceptStoresDeleteRequest (Integer storeId) {
+        // 1) Lấy danh sách các user đang gửi request:
+        List<Store> requestStores = storeRepository.findStoresDeleteRequest();
+        // 2) Kiểm tra user có nằm trong danh sách requestUsers hay không:
+        for (Store requestStore : requestStores) {
+            // if (user in requestUsers)
+            if(Objects.equals(requestStore.getId(), storeId)) {
+                // 3a) Nếu có, thì cập nhật ROLE, lưu và trả về
+                requestStore.setStoreStatus("CLOSED");
+
+                return storeRepository.save(requestStore);
+            }
+        }
+        // 3b) Nếu không, thì trả về null
+        return null;
+    }
 
 
 }

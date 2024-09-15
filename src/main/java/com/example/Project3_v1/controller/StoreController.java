@@ -50,19 +50,28 @@ public class StoreController {
     }
 
     //Update
-    @PutMapping("/{id}/update")
+    @PutMapping("/update")
     Store updateStore (
-            @PathVariable Integer id,
             @RequestBody StoreUpdateRequest updatedStore) {
-        return storeService.updateStore(id, updatedStore);
+        // Lấy thông tin user từ token, truyền vào userDetails
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().
+                getAuthentication().getPrincipal();
+        // Lấy thông tin store từ userDetails
+        Store store =  userDetails.getStore();
+
+        return storeService.updateStore(store.getId(), updatedStore);
     }
 
     //Delete
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete-request")
     String deleteStore (
-            @PathVariable Integer id,
             @RequestBody StoreDeleteRequest reason) {
-        storeService.deleteStore(id, reason);
+        // Lấy thông tin user từ token, truyền vào userDetails
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().
+                getAuthentication().getPrincipal();
+        // Lấy thông tin store từ userDetails
+        Store store =  userDetails.getStore();
+        storeService.deleteStore(store.getId(), reason);
         return "Delete Request was submitted";
     }
 

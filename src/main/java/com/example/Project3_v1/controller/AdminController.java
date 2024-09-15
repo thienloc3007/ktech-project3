@@ -70,4 +70,17 @@ public class AdminController {
             @PathVariable Integer storeId) {
         return adminService.declineStoreOpenRequest(storeId);
     }
+
+    @GetMapping("/check-store-delete-request")
+    List<Store> getStoreDeleteRequest () {
+        return adminService.getStoreDeleteRequest(); //
+    }
+
+    @PutMapping("/check-store-delete-request/{storeId}/accept")
+    public Store acceptStoresDeleteRequest (
+            @PathVariable Integer storeId) {
+        Store store = adminService.acceptStoresDeleteRequest(storeId);
+        return store;
+    }
+
 }

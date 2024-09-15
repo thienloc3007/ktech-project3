@@ -14,4 +14,8 @@ public interface StoreRepository extends JpaRepository<Store, Integer> {
 
     @Query("SELECT store FROM Store store WHERE store.storeStatus like '%REQUEST TO OPEN%' ")
     List<Store> findStoresOpenRequest();
+
+    @Query("SELECT store FROM Store store WHERE store.storeStatus like '%REQUEST TO CLOSE%' ")
+    List<Store> findStoresDeleteRequest();
+    
 }
