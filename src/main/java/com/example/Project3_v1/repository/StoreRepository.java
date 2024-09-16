@@ -17,5 +17,7 @@ public interface StoreRepository extends JpaRepository<Store, Integer> {
 
     @Query("SELECT store FROM Store store WHERE store.storeStatus like '%REQUEST TO CLOSE%' ")
     List<Store> findStoresDeleteRequest();
-    
+
+    @Query("SELECT store FROM Store store WHERE store.storeName LIKE CONCAT('%',:storeName,'%')")
+    List<Store> findStoresByName(String storeName);
 }

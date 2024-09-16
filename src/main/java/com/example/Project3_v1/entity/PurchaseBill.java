@@ -12,23 +12,19 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Product {
+public class PurchaseBill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String name;
-    private String image;
-    private String description;
-    private Integer price;
-    private Integer stock;
 
     @ManyToOne
-    @JoinColumn(name = "store")
+    @JoinColumn(name = "buyer")
     @JsonIgnore
-    private Store store;
+    private User buyer;
 
-//    @OneToOne
-//    @JoinColumn(name = "purchaseItem")
-//    @JsonIgnore
-//    private PurchaseItem purchaseItem;
+    @OneToMany (mappedBy = "purchaseBill")
+    private List<PurchaseItem> purchaseItems;
+
+    private String purchaseStatus; //NO PURCHASE, REQUEST TO PAYMENT,
+    private Integer totalAmount;
 }

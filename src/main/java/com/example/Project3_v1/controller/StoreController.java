@@ -35,8 +35,6 @@ public class StoreController {
     }
 
     //Read all stores
-//    @PreAuthorize("hasAuthority('ROLE_GENERAL_USER')")
-//    @PreAuthorize("hasAnyAuthority('ROLE_INACTIVE_USER')")
     @GetMapping
     List<Store> getAllStores() {
         return storeService.getAllStores();
@@ -75,9 +73,10 @@ public class StoreController {
         return "Delete Request was submitted";
     }
 
-
-
-
-
-
+    @GetMapping("/search")
+    List<Store> searchStore(
+            @RequestParam("name") String keyword,
+            @RequestParam("classification") Integer classification) {
+        return storeService.searchStore(keyword, classification);
+    }
 }

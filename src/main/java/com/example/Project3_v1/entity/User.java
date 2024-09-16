@@ -38,4 +38,8 @@ public class User {
 //    @JsonIgnore
     @JsonManagedReference // Đặt ở phía cha (User)
     private Store store;
+
+    @OneToMany(mappedBy = "buyer")
+    private List<PurchaseBill> purchaseBills;
+
 }

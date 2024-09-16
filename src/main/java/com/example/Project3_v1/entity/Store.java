@@ -32,6 +32,5 @@ public class Store {
     private User owner;
 
     @OneToMany(mappedBy = "store")
-    @JsonIgnore
     private List<Product> products;
 }

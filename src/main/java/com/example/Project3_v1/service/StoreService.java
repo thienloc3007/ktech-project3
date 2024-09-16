@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -93,5 +94,32 @@ public class StoreService {
     }
 
 
+    public List<Store> searchStore(String keyword, Integer classification) {
+        // Create an empty store list to return
+        List<Store> returnStoreList = new ArrayList<Store>();
 
+        // Find all stores that have name containing a string of keyword
+        List<Store> findStoreList = storeRepository.findStoresByName(keyword);
+
+
+        if (findStoreList.isEmpty())
+        {
+            // If there are no stores, then return empty list
+            return returnStoreList;
+        }
+        else
+        {
+            // If there are stores, then find stores that match classification, and add to return list
+            for (Store store : findStoreList)
+            {
+                if (store.getClassification().getId().equals(classification))
+                {
+                    // add to return list
+                    returnStoreList.add(store);
+                }
+            }
+        }
+        // Return the list of stores that match the keyword and classification criteria
+        return returnStoreList;
+    }
 }

@@ -40,17 +40,21 @@ public class WebSecurityConfiguration {
                                             "/static/**",
 //                                            "/stores/**",
                                             "/admin/**",
-                                            "/classification/**"
+                                            "/classification/**",
+                                            "/products"
                                         ).permitAll();
                     auth.requestMatchers(   "/tokenAuth/signup",
                                             "/auth/signup"
                                         ).anonymous();
-                    auth.requestMatchers( "/users/**"
+                    auth.requestMatchers( "/users/**",
+                                            "/purchase/**"
 //                                          "/store/**"
                                         ).authenticated();
                     // ROLE에 따른 접근 권한
                     auth.requestMatchers("/stores/**")
-                            .hasAnyAuthority("ROLE_GENERAL_USER","ROLE_BUSINESS_USER");
+                            .hasAnyAuthority("ROLE_GENERAL_USER","ROLE_BUSINESS_USER", "ROLE_ADMIN");
+                    auth.requestMatchers("/products/**")
+                            .hasAnyAuthority("ROLE_BUSINESS_USER", "ROLE_ADMIN");
 //                    auth.requestMatchers("/admin-role")
 //                            .hasRole("ADMIN");
 //                  auth.anyRequest()

@@ -30,25 +30,32 @@ public class UserController {
         return userService.getUserById(id);
     }
 
-    @PutMapping("/{id}/update")
+    @PutMapping("/update")
     User updateUser (
-            @PathVariable Integer id,
             @RequestBody @Valid UserUpdateRequest updatedUser) {
-        return userService.updateUser(id, updatedUser);
+        // Lấy thông tin user từ token, truyền vào userDetails
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().
+                getAuthentication().getPrincipal();
+        return userService.updateUser(userDetails.getId(), updatedUser);
     }
 
-    @PutMapping("/{id}/upgrade")
+    @PutMapping("/upgrade")
     User upgradeUser (
-            @PathVariable Integer id,
             @RequestBody @Valid UserUpgradeRequest upgradeUser) {
-        return userService.upgradeUser(id, upgradeUser)  ;
+        // Lấy thông tin user từ token, truyền vào userDetails
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().
+                getAuthentication().getPrincipal();
+
+        return userService.upgradeUser(userDetails.getId(), upgradeUser)  ;
     }
 
 
-    @DeleteMapping("/{id}")
-    void deleteUser (
-            @PathVariable Integer id) {
-        userService.deleteUser(id);
+    @DeleteMapping("/delete")
+    void deleteUser (){
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().
+                getAuthentication().getPrincipal();
+
+        userService.deleteUser(userDetails.getId());
     }
 
     @GetMapping("/profile")
