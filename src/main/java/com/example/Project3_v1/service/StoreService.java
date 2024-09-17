@@ -4,9 +4,11 @@ import com.example.Project3_v1.dto.store.StoreCreateRequest;
 import com.example.Project3_v1.dto.store.StoreDeleteRequest;
 import com.example.Project3_v1.dto.store.StoreUpdateRequest;
 import com.example.Project3_v1.entity.Classification;
+import com.example.Project3_v1.entity.Product;
 import com.example.Project3_v1.entity.Store;
 import com.example.Project3_v1.entity.User;
 import com.example.Project3_v1.repository.ClassificationRepository;
+import com.example.Project3_v1.repository.ProductRepository;
 import com.example.Project3_v1.repository.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,7 @@ import java.util.List;
 public class StoreService {
     @Autowired private StoreRepository storeRepository;
     @Autowired private ClassificationRepository classificationRepository;
+    @Autowired private ProductRepository productRepository;
 
     //Create
     public Store autocCreateStore(User owner) {
@@ -122,4 +125,8 @@ public class StoreService {
         // Return the list of stores that match the keyword and classification criteria
         return returnStoreList;
     }
+
+
+
+
 }

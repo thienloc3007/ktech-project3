@@ -4,6 +4,7 @@ import com.example.Project3_v1.dto.store.StoreCreateRequest;
 import com.example.Project3_v1.dto.store.StoreDeleteRequest;
 import com.example.Project3_v1.dto.store.StoreUpdateRequest;
 import com.example.Project3_v1.entity.CustomUserDetails;
+import com.example.Project3_v1.entity.Product;
 import com.example.Project3_v1.entity.Store;
 import com.example.Project3_v1.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,4 +80,6 @@ public class StoreController {
             @RequestParam("classification") Integer classification) {
         return storeService.searchStore(keyword, classification);
     }
+
+
 }

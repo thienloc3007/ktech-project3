@@ -37,6 +37,14 @@ public class PurchaseController {
         return purchaseService.addToCart(userDetails.getId(),purchaseRequest);
     }
 
+    @PostMapping("/request-to-payment")
+    public PurchaseBill requestToPayment() {
+        // Lấy thông tin user từ token, truyền vào userDetails
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().
+                getAuthentication().getPrincipal();
+        return purchaseService.requestToPayment(userDetails.getId());
+    }
+
 
 
 }

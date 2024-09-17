@@ -77,4 +77,17 @@ public class ProductController {
       return "This product has been deleted";
     }
 
+    @GetMapping("/search-by-products")
+    List<Product> searchProducts(
+            @RequestParam("name") String keyword) {
+        return productService.searchProducts(keyword);
+    }
+
+    @GetMapping("/search-by-price-range")
+    List<Product> searchProductsByPriceRange(
+            @RequestParam("minPrice") Integer minPrice,
+            @RequestParam("maxPrice") Integer maxPrice) {
+        return productService.searchProductsByPriceRange(minPrice, maxPrice);
+    }
+
 }

@@ -13,6 +13,7 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -83,7 +84,35 @@ public class ProductService {
         productRepository.deleteById(productId);
     }
 
+    //Search by product name
+    public List<Product> searchProducts (String keyword) {
+        // Create an empty product list to return
+        List<Product> returnProductList = new ArrayList<Product>();
 
-    //Search
+        // Find all products that have name containing a string of keyword
+        List<Product> findProductList = productRepository.findProductsByName(keyword);
 
+        if (findProductList.isEmpty())
+        {
+            // If there are no products, then return empty list
+            return returnProductList;
+        }
+        else
+        {
+            // If there are products, then add to return list
+            return findProductList;
+        }
+    }
+
+    //Search by price range
+    public List<Product> searchProductsByPriceRange (Integer minPrice, Integer maxPrice) {
+        List<Product> returnProductList = new ArrayList<Product>();
+        List<Product> findProductList = productRepository.findProductsByPriceRange(minPrice, maxPrice);
+
+        if (findProductList.isEmpty()) {
+            return returnProductList;
+        } else {
+            return findProductList;
+        }
+    }
 }

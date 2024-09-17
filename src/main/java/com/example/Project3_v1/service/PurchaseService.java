@@ -96,6 +96,33 @@ public class PurchaseService {
         // Luu lai thong tin cart moi va tra ve
         return purchaseBillRepository.save(currentPurchaseBill);
     }
+    public PurchaseBill requestToPayment (Integer userId){
+        // Lay cart cua user hien tai tu userId
+        PurchaseBill currentCart = getCart(userId);
+        // Chuyen trang thai cart sang request to payment
+        currentCart.setPurchaseStatus("REQUEST TO PAYMENT");
+        // Luu lai thong tin cart moi va tra ve
+        return purchaseBillRepository.save(currentCart);
+    }
 
+    //Transfer the amount required for the purchase
+    public PurchaseBill transfer (Integer billId, Integer amount) {
+        PurchaseBill purchaseBill = purchaseBillRepository.findById(billId)
+                .orElseThrow(() -> new RuntimeException("Bill not found"));
+        // Kiểm tra nếu hóa đơn đã thanh toán
+        if ("REQUEST TO PAYMENT".equals(purchaseBill.getPurchaseStatus())) {
+            throw new RuntimeException("There is no bill waiting for payment");
+        }
+
+
+
+        // Cập nhật trạng thái và ngày thanh toán
+//        purchaseBill.setStatus("PAID");
+//        purchaseBill.setPaymentDate(LocalDateTime.now());
+
+        // Lưu hóa đơn
+        return purchaseBillRepository.save(purchaseBill);
+    }
+    }
 
 }

@@ -54,7 +54,7 @@ public class WebSecurityConfiguration {
                     auth.requestMatchers("/stores/**")
                             .hasAnyAuthority("ROLE_GENERAL_USER","ROLE_BUSINESS_USER", "ROLE_ADMIN");
                     auth.requestMatchers("/products/**")
-                            .hasAnyAuthority("ROLE_BUSINESS_USER", "ROLE_ADMIN");
+                            .hasAnyAuthority("ROLE_GENERAL_USER", "ROLE_BUSINESS_USER", "ROLE_ADMIN");
 //                    auth.requestMatchers("/admin-role")
 //                            .hasRole("ADMIN");
 //                  auth.anyRequest()
