@@ -25,6 +25,6 @@ public class PurchaseBill {
     @OneToMany (mappedBy = "purchaseBill")
     private List<PurchaseItem> purchaseItems;
 
-    private String purchaseStatus; //NO PURCHASE, REQUEST TO PAYMENT,
+    private String purchaseStatus; //NO PURCHASE, REQUEST TO PAYMENT, PAID, CANCELED
     private Integer totalAmount;
 }

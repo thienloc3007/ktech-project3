@@ -43,6 +43,17 @@ public class UserService implements UserDetailsService {
         return userRepository.save(user);
     }
 
+    //input bank info
+//    public UserBankInfo createBankInfo(Integer id, UserBankInfoRequest userBankInfoRequest) {
+//        User user = getUserById(id);
+//
+//        UserBankInfo userBankInfo = new UserBankInfo();
+//        userBankInfo.setBankName(userBankInfoRequest.getBankName());
+//        userBankInfo.setAccountNumber(userBankInfoRequest.getAccountNumber());
+//        userBankInfo.setBalance(userBankInfoRequest.getBalance());
+//        return userBankInfoRepository.save(userBankInfo);
+//    }
+
     public List<User> getUsers() {
         return userRepository.findAll();
     }
@@ -63,6 +74,10 @@ public class UserService implements UserDetailsService {
         user.setEmail(updateRequest.getEmail());
         user.setPhoneNumber(updateRequest.getPhoneNumber());
         user.setProfilePicture(updateRequest.getProfilePicture());
+
+        user.setBankName(updateRequest.getBankName());
+        user.setAccountNumber(updateRequest.getAccountNumber());
+        user.setBalance(updateRequest.getBalance());
         userRepository.save(user);
 
         if(user.getName() != null && user.getAge() != null

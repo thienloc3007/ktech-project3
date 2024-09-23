@@ -32,14 +32,21 @@ public class User {
     private String profilePicture;
     private String authorities; //(Inactive, General, Business, Administrator)
     private String upgradeReason;
-
+    private String bankName;
+    private Integer balance;
+    private String accountNumber;
 
     @OneToOne(mappedBy = "owner")
 //    @JsonIgnore
     @JsonManagedReference // Đặt ở phía cha (User)
     private Store store;
 
+//    @OneToOne(mappedBy = "user")
+//    @JsonManagedReference // Đặt ở phía cha (User)
+//    private UserBankInfo userBankInfo;
+
     @OneToMany(mappedBy = "buyer")
     private List<PurchaseBill> purchaseBills;
+
 
 }

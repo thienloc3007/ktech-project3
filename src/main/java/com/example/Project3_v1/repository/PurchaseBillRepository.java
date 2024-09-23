@@ -10,6 +10,7 @@ import java.util.List;
 
 @Repository
 public interface PurchaseBillRepository extends JpaRepository<PurchaseBill, Integer> {
-
+    @Query("SELECT p FROM PurchaseBill p WHERE p.purchaseStatus like '%REQUEST TO PAYMENT%'")
+    List<PurchaseBill> findBillToCancel();
 
 }

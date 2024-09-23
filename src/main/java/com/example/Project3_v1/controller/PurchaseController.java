@@ -45,6 +45,14 @@ public class PurchaseController {
         return purchaseService.requestToPayment(userDetails.getId());
     }
 
+    @DeleteMapping("/cancel-payment")
+    public void cancelPayment(
+            @PathVariable Integer billId
+    ) {
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().
+                getAuthentication().getPrincipal();
+        purchaseService.cancelPayment(userDetails.getId(), billId);
+    }
 
 
 }

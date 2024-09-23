@@ -1,6 +1,5 @@
 package com.example.Project3_v1.controller;
 
-import com.example.Project3_v1.dto.user.UserCreationRequest;
 import com.example.Project3_v1.dto.user.UserUpdateRequest;
 import com.example.Project3_v1.dto.user.UserUpgradeRequest;
 import com.example.Project3_v1.entity.CustomUserDetails;
@@ -38,6 +37,17 @@ public class UserController {
                 getAuthentication().getPrincipal();
         return userService.updateUser(userDetails.getId(), updatedUser);
     }
+
+//    @PostMapping("/update-bank-info")
+//    UserBankInfo updateBankInfo(
+//            @RequestBody UserBankInfoRequest userBankInfoRequest
+//            ) {
+//        // Lấy thông tin user từ token, truyền vào userDetails
+//        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().
+//                getAuthentication().getPrincipal();
+//        return userService.createBankInfo(userDetails.getId(), userBankInfoRequest);
+//
+//    }
 
     @PutMapping("/upgrade")
     User upgradeUser (
