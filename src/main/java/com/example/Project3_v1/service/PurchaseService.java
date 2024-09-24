@@ -110,6 +110,7 @@ public class PurchaseService {
         // Lay cart cua user hien tai tu userId
         PurchaseBill currentCart = getCart(userId);
 
+
         //thực hiện thanh toán
         //check tra total amount to pay
         Integer totalAmount = currentCart.getTotalAmount();
@@ -128,6 +129,25 @@ public class PurchaseService {
             // Cập nhật trạng thái và ngày thanh toán
             currentCart.setPurchaseStatus("REQUEST TO PAYMENT");
         }
+
+        List<PurchaseItem> purchaseItems = currentCart.getPurchaseItems();
+        for (PurchaseItem purchaseItem : purchaseItems) {
+            Product product = purchaseItem.getProduct();
+            Store store = product.getStore();
+            User owner = store.getOwner();
+            Integer ownerId = owner.getId();
+
+            //call for the seller of current cart
+            List<User> sellers = userService.getSellers();
+            for (User seller : sellers) {
+                Integer sellerBalance = seller.getBalance();
+                if (Objects.equals(seller.getId(), ownerId)) {
+                    seller.setBalance(sellerBalance + currentCart.getTotalAmount());
+                    userRepository.save(seller);
+                }
+            }
+        }
+
         // Lưu hóa đơn
         return purchaseBillRepository.save(currentCart);
     }
@@ -152,12 +172,29 @@ public class PurchaseService {
         return purchaseBillRepository.save(targetBill.get());
     }
 
-    public PurchaseBill acceptPurchaseBill(Integer userId, Integer billId) {
-        User seller = userService.getUserById(userId);
+    public PurchaseBill acceptPurchaseBill(Integer userId, Integer billId, Integer itemId) {
         //search những purchase bill của store có trạng thái "REQUEST TO PAYMENT"
+        List<PurchaseBill> targetBills = purchaseBillRepository.findBillRequestToPayment();
+        if (targetBills.isEmpty()) {
+            throw new IllegalStateException("No purchase bills found with 'REQUEST TO PAYMENT' status.");
+        }
 
-        //accept payment
+            PurchaseBill targetBill = targetBills.stream()
+                    .filter(bill -> Objects.equals(bill.getId(), billId))
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalArgumentException("Purchase bill not found for the given billId: " + billId));
 
+            targetBill.setPurchaseStatus("PAID");
+
+            List<PurchaseItem> purchaseItems = targetBill.getPurchaseItems();
+            for (PurchaseItem purchaseItem : purchaseItems) {
+                Product product = purchaseItem.getProduct();
+                Integer stockBefore = product.getStock(); //value of stock in system before purchase
+                product.setStock(stockBefore - purchaseItem.getQuantity()); //value of stock in system after purchase
+                purchaseItemRepository.save(purchaseItem);
+            }
+
+        return purchaseBillRepository.save(targetBill);
     }
 }
 

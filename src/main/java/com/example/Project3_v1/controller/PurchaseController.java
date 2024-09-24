@@ -54,5 +54,4 @@ public class PurchaseController {
         purchaseService.cancelPayment(userDetails.getId(), billId);
     }
 
-
 }

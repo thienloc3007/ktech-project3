@@ -19,4 +19,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("SELECT u FROM User u WHERE u.authorities like '%ROLE_GENERAL_USER%' " +
             "AND u.upgradeReason IS NOT NULL")
     List<User> findGeneralUsersWithUpgradeRequests();
+
+    @Query("SELECT u FROM User u WHERE u.authorities like '%ROLE_BUSINESS_USER%' ")
+    List<User> findSeller();
+
 }

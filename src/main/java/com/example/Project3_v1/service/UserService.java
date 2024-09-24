@@ -63,6 +63,10 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
+    public List<User> getSellers () {
+        return userRepository.findSeller();
+            }
+
 
     public User updateUser (Integer id, UserUpdateRequest updateRequest) {
         User user = getUserById(id);
